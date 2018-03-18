@@ -1,6 +1,7 @@
 class CustomersController < ApplicationController
+before_action :set_customer, only: [:show, :edit, :update, :destroy] #追加
   def index
-    @customers = Customer.all
+    @customers = Customer.page(params[:page])
   end
 
   def new
@@ -41,8 +42,12 @@ class CustomersController < ApplicationController
 
 
   private
+  def set_customer
+    @customer = Customer.find(params[:id])
+  end
+
 
   def customer_params
-     params.require(:customer).permit(:family_name, :given_name, :email)
+     params.require(:customer).permit(:family_name, :given_name, :email, :company_id)
   end
 end
