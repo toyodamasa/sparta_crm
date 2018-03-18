@@ -1,4 +1,5 @@
 class CustomersController < ApplicationController
+before_action :authenticate_user!
 before_action :set_customer, only: [:show, :edit, :update, :destroy] #追加
   def index
     @q = Customer.includes(:post, :company).ransack(params[:q])
@@ -32,7 +33,8 @@ before_action :set_customer, only: [:show, :edit, :update, :destroy] #追加
   end
 
   def show
-    @customer = Customer.find(params[:id])
+    @comment = Comment.new
+    @comments = @customer.comments
   end
 
   def destroy
